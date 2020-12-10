@@ -1,0 +1,48 @@
+.icon {
+    background-color: rgb(63, 238, 223);
+    padding: 2rem;
+    border-radius: 50%;
+    height: 15rem;
+    width: 15rem;
+    font-size: 7rem;
+    margin: auto;
+    position: relative;
+}
+
+.letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-transform: uppercase;
+}
+
+.info {
+    margin-top: 4rem;
+    display: flex;
+    width: 100%;
+    font-size: 3rem;
+    align-content: space-around;
+    vertical-align: baseline;
+    justify-content: space-around;
+}
+
+.info__number {
+    text-align: center;
+    background-color: salmon;
+}
+
+.details {
+    margin: auto;
+    margin-top: 4rem;
+    font-size: 4rem;
+    text-align: center;
+}
+
+table {
+    margin: auto;
+}
+
+td {
+    padding: 2rem;
+}

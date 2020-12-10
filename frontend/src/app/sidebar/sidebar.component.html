@@ -1,0 +1,26 @@
+<div class="app">
+    <div mode="side" opened class="sidebar">
+      <h1 class="header">TSP<mat-icon aria-hidden="false" aria-label="Header icon">brightness_6</mat-icon>
+      </h1>
+      <mat-selection-list #shoes [multiple]="false">
+        <mat-list-option (click)="openNew()">
+          Dodaj nowe
+        </mat-list-option>
+        <mat-list-option (click)="openReports()">
+          Twoje zgłoszenia
+        </mat-list-option>
+      </mat-selection-list>
+      <mat-selection-list #shoes [multiple]="false" class="dolne">
+        <mat-list-option (click)="openUser()">
+          Konto i dane
+        </mat-list-option>
+        <mat-list-option (click)="logout()">
+          Wyloguj się
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="content">
+      <app-map></app-map>
+    </div>
+
+</div>

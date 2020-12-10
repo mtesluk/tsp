@@ -1,0 +1,12 @@
+table{
+  width: 100%;
+  height: 100%;
+}
+
+th {
+  font-size: 2.5rem;
+}
+
+td {
+  font-size: 1.5rem;
+}

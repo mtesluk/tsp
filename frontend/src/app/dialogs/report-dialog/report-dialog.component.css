@@ -1,0 +1,13 @@
+.label-container {
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.title {
+  margin-bottom: 5px;
+}

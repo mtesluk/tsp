@@ -1,0 +1,26 @@
+.app {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+}
+
+.sidebar {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dolne {
+    margin-top: auto;
+}
+
+.header {
+    border-bottom: 1px solid black;
+    text-align: center;
+    font-size: 4rem;
+}

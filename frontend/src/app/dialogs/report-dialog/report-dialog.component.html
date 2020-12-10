@@ -1,0 +1,40 @@
+<h1 class="title" mat-dialog-title>Raport</h1>
+<div class="label-container">
+  <span class="label">Długość geograficzna</span>
+  <span>{{data.longitude}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Szerokość geograficzna</span>
+  <span>{{data.latitude}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Status</span>
+  <span>{{data.reportStatus}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Opis</span>
+  <span>{{data.description}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Miasto</span>
+  <span>{{data.city}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Ulica</span>
+  <span>{{data.street}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Numer domu</span>
+  <span>{{data.streetNumber}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Data utworzenia</span>
+  <span>{{data.createdDateTime}}</span>
+</div>
+<div class="label-container">
+  <span class="label">Data aktualizacji</span>
+  <span>{{data.updatedDateTime}}</span>
+</div>
+<div style="display: flex; justify-content: center">
+  <img style="width: 200px" src="{{link}}">
+</div>

@@ -1,0 +1,32 @@
+<h1 mat-dialog-title>Nowy raport</h1>
+<form [formGroup]="reportForm" (ngSubmit)="onSubmit($event)">
+    <div class="form-group">
+        <input class="form-control" id="inputDescription" placeholder="Opis" formControlName="description">
+        <mat-error *ngIf="reportForm.controls['description'].touched && reportForm.controls['description'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <div class="form-group">
+        <label for="imageDescription">Wybierz zdjecie</label>
+        <input type="file" class="form-control-file" id="imageDescription" (change)="onImageChange($event)">
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="cityDescription" placeholder="Miasto" formControlName="city">
+        <mat-error *ngIf="reportForm.controls['city'].touched && reportForm.controls['city'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="streetDescription" placeholder="Ulica" formControlName="street">
+        <mat-error *ngIf="reportForm.controls['street'].touched && reportForm.controls['street'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="nrDescription" placeholder="Numer domu" formControlName="streetNumber">
+        <mat-error *ngIf="reportForm.controls['streetNumber'].touched && reportForm.controls['streetNumber'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="letDescription" placeholder="Dugosc geograficzna" formControlName="latitude">
+        <mat-error *ngIf="reportForm.controls['latitude'].touched && reportForm.controls['latitude'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <div class="form-group">
+        <input class="form-control" id="lonDescription" placeholder="Szerokosc geograficzna" formControlName="longitude">
+        <mat-error *ngIf="reportForm.controls['longitude'].touched && reportForm.controls['longitude'].hasError('required')">Wymagane</mat-error>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg submit">Add</button>
+</form>
