@@ -1,20 +1,13 @@
 package com.besthacks.tsp.domain.report.entity;
 
+import com.besthacks.tsp.domain.account.entity.Account;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,31 +15,41 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Report {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column
     private String description;
+
     @Column
     @Enumerated(value = EnumType.STRING)
     private ReportStatus reportStatus;
+
     @Column
     private String city;
+
     @Column
     private String street;
+
     @Column
     private Integer streetNumber;
+
     @Column
     private Double latitude;
+
     @Column
     private Double longitude;
-    @Column
-    private Long accountId;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "account_id", nullable = false)
+    private Account account;
+
     @Column
     private LocalDateTime createdDateTime;
+
     @Column
     private LocalDateTime updatedDateTime;
 

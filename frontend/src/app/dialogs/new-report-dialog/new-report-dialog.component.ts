@@ -29,7 +29,7 @@ export class NewReportDialogComponent implements OnInit {
   onSubmit(event) {
     event.preventDefault();
     if (this.reportForm.valid) {
-      this._service.save({...this.reportForm.value, reportStatus: 'NEW', accoundId: 1}, this.fileUpload).subscribe(ele => {
+      this._service.save({...this.reportForm.value}, this.fileUpload).subscribe(ele => {
         this.dialogRef.close();
       })
     }

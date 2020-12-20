@@ -1,20 +1,24 @@
 package com.besthacks.tsp.controller;
 
-import com.besthacks.tsp.domain.report.dto.CreateReportRequest;
-import com.besthacks.tsp.domain.report.dto.ReportResponse;
+import com.besthacks.tsp.domain.report.dto.ReportDto;
 import com.besthacks.tsp.domain.report.dto.ReportsRequestParamsTemplate;
 import com.besthacks.tsp.domain.report.dto.UpdateReportRequest;
 import com.besthacks.tsp.domain.report.entity.ReportImage;
 import com.besthacks.tsp.domain.report.entity.ReportStatus;
 import com.besthacks.tsp.handler.ReportHandler;
 import com.besthacks.tsp.handler.ReportImageHandler;
+import com.besthacks.tsp.repository.AccountRepository;
+import com.besthacks.tsp.service.TspUserDetailsService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,11 +30,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ReportController {
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     private ReportHandler reportHandler;
     private ReportImageHandler reportImageHandler;
 
     @GetMapping
-    public List<ReportResponse> getReports(
+    public List<ReportDto> getReports(
             @RequestParam(required = false) ReportStatus reportStatus,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) Double longitude,
@@ -57,17 +64,19 @@ public class ReportController {
     }
 
     @GetMapping("/{id}")
-    public ReportResponse getReport(@PathVariable Long id) {
+    public ReportDto getReport(@PathVariable Long id) {
         return reportHandler.getReport(id);
     }
 
     @PostMapping
-    public ReportResponse createReport(@RequestBody CreateReportRequest createReportRequest) {
-        return reportHandler.createReport(createReportRequest);
+    public ReportDto createReport(@RequestBody ReportDto reportDto, Authentication authentication) {
+        reportDto.setAccount(accountRepository.findAccountByUsername(authentication.getName()).get());
+        reportDto.setReportStatus(ReportStatus.NEW);
+        return reportHandler.createReport(reportDto);
     }
 
     @PutMapping("/{id}")
-    public ReportResponse updateReport(@PathVariable Long id, @RequestBody UpdateReportRequest updateReportRequest) {
+    public ReportDto updateReport(@PathVariable Long id, @RequestBody UpdateReportRequest updateReportRequest) {
         return reportHandler.updateReport(id, updateReportRequest);
     }
 

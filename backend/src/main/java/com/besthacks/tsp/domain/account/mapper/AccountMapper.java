@@ -1,7 +1,6 @@
 package com.besthacks.tsp.domain.account.mapper;
 
-import com.besthacks.tsp.domain.account.dto.AccountCreateRequest;
-import com.besthacks.tsp.domain.account.dto.AccountResponse;
+import com.besthacks.tsp.domain.account.dto.AccountDto;
 import com.besthacks.tsp.domain.account.entity.Account;
 import com.besthacks.tsp.domain.account.entity.AccountRole;
 import com.besthacks.tsp.domain.reward.entity.Reward;
@@ -17,8 +16,8 @@ public class AccountMapper {
 
     private PasswordEncoder passwordEncoder;
 
-    public AccountResponse mapToAccountResponse(Account account, List<Reward> rewards) {
-        return AccountResponse.builder()
+    public AccountDto toAccountDto(Account account, List<Reward> rewards) {
+        return AccountDto.builder()
                 .id(account.getId())
                 .email(account.getEmail())
                 .username(account.getUsername())
@@ -27,13 +26,13 @@ public class AccountMapper {
                 .build();
     }
 
-    public Account mapToAccount(AccountCreateRequest request) {
+    public Account toAccount(AccountDto accountDto) {
         return Account.builder()
-                .email(request.getEmail())
-                .username(request.getUsername())
-                .city(request.getCity())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .accountRole(AccountRole.USER)
+                .email(accountDto.getEmail())
+                .username(accountDto.getUsername())
+                .password(passwordEncoder.encode(accountDto.getPassword()))
+                .city(accountDto.getCity())
+                .accountRole(accountDto.getRole())
                 .build();
     }
 }

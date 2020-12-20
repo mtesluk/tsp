@@ -1,7 +1,6 @@
 package com.besthacks.tsp.handler;
 
-import com.besthacks.tsp.domain.account.dto.AccountCreateRequest;
-import com.besthacks.tsp.domain.account.dto.AccountResponse;
+import com.besthacks.tsp.domain.account.dto.AccountDto;
 import com.besthacks.tsp.domain.account.mapper.AccountMapper;
 import com.besthacks.tsp.exception.TspException;
 import com.besthacks.tsp.repository.AccountRepository;
@@ -21,17 +20,16 @@ public class AccountHandler {
     private RewardRepository rewardRepository;
     private AccountMapper accountMapper;
 
-    public AccountResponse createAccount(AccountCreateRequest request) {
-        return accountMapper.mapToAccountResponse(
-                accountRepository.save(accountMapper.mapToAccount(request)), new ArrayList<>());
+    public AccountDto createAccount(AccountDto request) {
+        return accountMapper.toAccountDto(accountRepository.save(accountMapper.toAccount(request)), new ArrayList<>());
     }
 
-    public AccountResponse getAccountById(Long id) {
-        return accountMapper.mapToAccountResponse(accountRepository.getOne(id), rewardRepository.findByAccountId(id));
+    public AccountDto getAccountById(Long id) {
+        return accountMapper.toAccountDto(accountRepository.getOne(id), rewardRepository.findByAccountId(id));
     }
 
-    public AccountResponse getAccountByUsername(String username) {
-        return accountMapper.mapToAccountResponse(accountRepository.findAccountByUsername(username)
+    public AccountDto getAccountByUsername(String username) {
+        return accountMapper.toAccountDto(accountRepository.findAccountByUsername(username)
                 .orElseThrow(() -> new TspException("User with username " + username + " not found", UNAUTHORIZED)), new ArrayList<>());
     }
 

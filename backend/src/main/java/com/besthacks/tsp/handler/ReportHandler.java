@@ -1,7 +1,6 @@
 package com.besthacks.tsp.handler;
 
-import com.besthacks.tsp.domain.report.dto.CreateReportRequest;
-import com.besthacks.tsp.domain.report.dto.ReportResponse;
+import com.besthacks.tsp.domain.report.dto.ReportDto;
 import com.besthacks.tsp.domain.report.dto.ReportsRequestParamsTemplate;
 import com.besthacks.tsp.domain.report.dto.UpdateReportRequest;
 import com.besthacks.tsp.domain.report.mapper.ReportMapper;
@@ -22,25 +21,25 @@ public class ReportHandler {
     private ReportRepository repository;
     private ReportMapper mapper;
 
-    public List<ReportResponse> getReports(ReportsRequestParamsTemplate requestParamsTemplate) {
+    public List<ReportDto> getReports(ReportsRequestParamsTemplate requestParamsTemplate) {
         return service.getReports(requestParamsTemplate)
                 .stream()
-                .map(mapper::mapToReportResponse)
+                .map(mapper::toReportDto)
                 .collect(Collectors.toList());
     }
 
-    public ReportResponse getReport(Long id) {
+    public ReportDto getReport(Long id) {
         return repository.findById(id)
-                .map(mapper::mapToReportResponse)
+                .map(mapper::toReportDto)
                 .orElseThrow(() -> new NoSuchElementException("Report with id " + id + "not found!"));
     }
 
-    public ReportResponse createReport(CreateReportRequest createReportRequest) {
-        return mapper.mapToReportResponse(repository.save(mapper.mapToReport(createReportRequest)));
+    public ReportDto createReport(ReportDto reportDto) {
+        return mapper.toReportDto(repository.save(mapper.toReport(reportDto)));
     }
 
-    public ReportResponse updateReport(Long id, UpdateReportRequest updateReportRequest) {
-        return mapper.mapToReportResponse(service.updateReport(id, updateReportRequest));
+    public ReportDto updateReport(Long id, UpdateReportRequest updateReportRequest) {
+        return mapper.toReportDto(service.updateReport(id, updateReportRequest));
     }
 
 }

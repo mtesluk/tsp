@@ -28,14 +28,7 @@ export class ReportDialogComponent implements OnInit {
   ngOnInit(): void {
 
     const index = Math.floor(Math.random() * (2 - 0 + 1));
-    this.link = this.imageArr[index];
-
-    this._http.get(
-      environment.url.report + '/' + this.data.id + '/image'
-    ).pipe(
-      tap((data: File) => {
-        this.image = data;})
-    ).subscribe();
+    this.link = environment.url.report + '/' + this.data.id + '/image';
   }
 
 

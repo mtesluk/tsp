@@ -1,17 +1,17 @@
 package com.besthacks.tsp.domain.account.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.besthacks.tsp.domain.report.entity.Report;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
-@Builder
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Account {
 
     @Id
@@ -28,4 +28,7 @@ public class Account {
     @Column
     @Enumerated(value = EnumType.STRING)
     private AccountRole accountRole;
+
+    @OneToMany(mappedBy = "account")
+    private List<Report> reports;
 }

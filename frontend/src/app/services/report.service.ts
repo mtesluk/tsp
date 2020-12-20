@@ -9,6 +9,7 @@ import { switchMap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ReportService {
+
   constructor(private _http: HttpClient) { }
 
   fetchReports(): Observable<Report[]> {
