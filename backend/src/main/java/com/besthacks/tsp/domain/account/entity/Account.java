@@ -29,6 +29,6 @@ public class Account {
     @Enumerated(value = EnumType.STRING)
     private AccountRole accountRole;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
     private List<Report> reports;
 }

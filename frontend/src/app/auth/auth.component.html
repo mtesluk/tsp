@@ -46,6 +46,8 @@
           placeholder="Password"
           required
         >
+        
+        <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 
         <button
           class="btn btn-primary"
@@ -56,6 +58,7 @@
         </button>
       </div>
     </form>
+
 
     <div id="formFooter">
       <p class="text">{{ isLogin ? 'Don\'t have account?' : 'Do you have account yet?' }} </p>

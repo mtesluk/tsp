@@ -18,6 +18,7 @@ export class NewReportDialogComponent implements OnInit {
     longitude: new FormControl('', Validators.required),
   });
   fileUpload: File;
+  loading = false;
 
   constructor(private _service: ReportService,
     public dialogRef: MatDialogRef<NewReportDialogComponent>,) { }
@@ -28,9 +29,14 @@ export class NewReportDialogComponent implements OnInit {
 
   onSubmit(event) {
     event.preventDefault();
+    this.loading = true;
     if (this.reportForm.valid) {
       this._service.save({...this.reportForm.value}, this.fileUpload).subscribe(ele => {
         this.dialogRef.close();
+      },
+      (err) => {},
+      () => {
+        this.loading = false;
       })
     }
   }

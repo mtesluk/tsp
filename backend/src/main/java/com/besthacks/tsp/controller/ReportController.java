@@ -48,7 +48,7 @@ public class ReportController {
             @RequestParam(required = false) Long accountId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdDateTime
     ) {
-        return reportHandler.getReports(
+        List<ReportDto> reports = reportHandler.getReports(
                 ReportsRequestParamsTemplate.builder()
                         .description(description)
                         .reportStatus(reportStatus)
@@ -61,6 +61,7 @@ public class ReportController {
                         .streetNumber(streetNumber)
                         .build()
         );
+        return reports;
     }
 
     @GetMapping("/{id}")

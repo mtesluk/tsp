@@ -1,4 +1,5 @@
 <h1 mat-dialog-title>Nowy raport</h1>
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
 <form [formGroup]="reportForm" (ngSubmit)="onSubmit($event)">
     <div class="form-group">
         <input class="form-control" id="inputDescription" placeholder="Opis" formControlName="description">

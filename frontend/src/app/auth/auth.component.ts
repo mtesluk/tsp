@@ -12,6 +12,7 @@ import {Observable} from 'rxjs';
 export class AuthComponent implements OnInit {
   isLogin = true;
   error = false;
+  loading = false;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +32,8 @@ export class AuthComponent implements OnInit {
     const username = form.value.username;
     const city = form.value.city;
 
+    this.loading = true;
+
     let authObs: Observable<AuthResponseData>;
     if (this.isLogin) {
       authObs = this.authService.login(username, password);
@@ -47,6 +50,9 @@ export class AuthComponent implements OnInit {
         console.log(errorMessage);
         this.error = errorMessage;
         this.error = true;
+      },
+      () => {
+        this.loading = false;
       }
     );
 
