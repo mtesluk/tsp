@@ -27,10 +27,13 @@ public class ReportService {
     private ReportMapper mapper;
 
     public List<ReportDto> getReports(ReportsRequestParamsTemplate requestParamsTemplate) {
-        return repository.findAll(buildSpecification(requestParamsTemplate))
+        Specification<Report> specifications = buildSpecification(requestParamsTemplate);
+        List<Report> reports = repository.findAll(specifications);
+        List<ReportDto> reportDtos = reports
                 .stream()
                 .map(mapper::toReportDto)
                 .collect(Collectors.toList());
+        return reportDtos;
     }
 
     public ReportDto getReport(Long id) {
@@ -122,6 +125,6 @@ public class ReportService {
     }
 
     private Specification<Report> hasAccountId(Long accountId) {
-        return (report, cq, cb) -> cb.equal(report.get("accountId"), accountId);
+        return (report, cq, cb) -> cb.equal(report.get("account").get("id"), accountId);
     }
 }
