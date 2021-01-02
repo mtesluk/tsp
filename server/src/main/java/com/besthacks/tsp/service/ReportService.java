@@ -1,17 +1,21 @@
 package com.besthacks.tsp.service;
 
-import com.besthacks.tsp.domain.report.dto.ReportsRequestParamsTemplate;
-import com.besthacks.tsp.domain.report.dto.UpdateReportRequest;
-import com.besthacks.tsp.domain.report.entity.Report;
-import com.besthacks.tsp.domain.report.entity.ReportStatus;
+import com.besthacks.tsp.dto.ReportDto;
+import com.besthacks.tsp.dto.ReportsRequestParamsTemplate;
+import com.besthacks.tsp.dto.UpdateReportRequest;
+import com.besthacks.tsp.entity.Report;
+import com.besthacks.tsp.entity.ReportStatus;
+import com.besthacks.tsp.mapper.ReportMapper;
 import com.besthacks.tsp.repository.ReportRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,11 +23,27 @@ public class ReportService {
 
     private ReportRepository repository;
 
-    public List<Report> getReports(ReportsRequestParamsTemplate requestParamsTemplate) {
-        return repository.findAll(buildSpecification(requestParamsTemplate));
+    @Autowired
+    private ReportMapper mapper;
+
+    public List<ReportDto> getReports(ReportsRequestParamsTemplate requestParamsTemplate) {
+        return repository.findAll(buildSpecification(requestParamsTemplate))
+                .stream()
+                .map(mapper::toReportDto)
+                .collect(Collectors.toList());
     }
 
-    public Report updateReport(Long reportId, UpdateReportRequest updateReportRequest) {
+    public ReportDto getReport(Long id) {
+        return repository.findById(id)
+                .map(mapper::toReportDto)
+                .orElseThrow(() -> new NoSuchElementException("Report with id " + id + "not found!"));
+    }
+
+    public ReportDto createReport(ReportDto reportDto) {
+        return mapper.toReportDto(repository.save(mapper.toReport(reportDto)));
+    }
+
+    public ReportDto updateReport(Long reportId, UpdateReportRequest updateReportRequest) {
         Report report = repository.findById(reportId).orElseThrow(() -> new NoSuchElementException(""));
         report.setDescription(updateReportRequest.getDescription());
         report.setCity(updateReportRequest.getCity());
@@ -31,7 +51,7 @@ public class ReportService {
         report.setLongitude(updateReportRequest.getLongitude());
         report.setReportStatus(updateReportRequest.getReportStatus());
 
-        return repository.save(report);
+        return mapper.toReportDto(repository.save(report));
     }
 
     private Specification<Report> buildSpecification(ReportsRequestParamsTemplate requestParamsTemplate) {

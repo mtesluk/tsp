@@ -1,8 +1,8 @@
 package com.besthacks.tsp.service;
 
-import com.besthacks.tsp.domain.index.Index;
-import com.besthacks.tsp.domain.installation.Installation;
-import com.besthacks.tsp.domain.measurement.Measurement;
+import com.besthacks.tsp.dto.Index;
+import com.besthacks.tsp.dto.Installation;
+import com.besthacks.tsp.dto.Measurement;
 
 import java.util.List;
 

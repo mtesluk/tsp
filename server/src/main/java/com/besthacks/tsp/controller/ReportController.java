@@ -1,14 +1,15 @@
 package com.besthacks.tsp.controller;
 
-import com.besthacks.tsp.domain.report.dto.ReportDto;
-import com.besthacks.tsp.domain.report.dto.ReportsRequestParamsTemplate;
-import com.besthacks.tsp.domain.report.dto.UpdateReportRequest;
-import com.besthacks.tsp.domain.report.entity.ReportImage;
-import com.besthacks.tsp.domain.report.entity.ReportStatus;
-import com.besthacks.tsp.handler.ReportHandler;
-import com.besthacks.tsp.handler.ReportImageHandler;
-import com.besthacks.tsp.repository.AccountRepository;
-import com.besthacks.tsp.service.TspUserDetailsService;
+import com.besthacks.tsp.dto.AccountDto;
+import com.besthacks.tsp.entity.AccountRole;
+import com.besthacks.tsp.dto.ReportDto;
+import com.besthacks.tsp.dto.ReportsRequestParamsTemplate;
+import com.besthacks.tsp.dto.UpdateReportRequest;
+import com.besthacks.tsp.entity.ReportImage;
+import com.besthacks.tsp.entity.ReportStatus;
+import com.besthacks.tsp.service.AccountService;
+import com.besthacks.tsp.service.ReportImageService;
+import com.besthacks.tsp.service.ReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -18,7 +19,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,12 +29,14 @@ import java.util.List;
 @RequestMapping("/api/v1/reports")
 @AllArgsConstructor
 public class ReportController {
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private ReportService reportService;
 
-    private ReportHandler reportHandler;
-    private ReportImageHandler reportImageHandler;
+    @Autowired
+    private ReportImageService reportSImageervice;
 
     @GetMapping
     public List<ReportDto> getReports(
@@ -46,49 +48,53 @@ public class ReportController {
             @RequestParam(required = false) String street,
             @RequestParam(required = false) Integer streetNumber,
             @RequestParam(required = false) Long accountId,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdDateTime
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime createdDateTime,
+            Authentication authentication
     ) {
-        List<ReportDto> reports = reportHandler.getReports(
-                ReportsRequestParamsTemplate.builder()
-                        .description(description)
-                        .reportStatus(reportStatus)
-                        .longitude(longitude)
-                        .latitude(latitude)
-                        .createdDateTime(createdDateTime)
-                        .city(city)
-                        .street(street)
-                        .accountId(accountId)
-                        .streetNumber(streetNumber)
-                        .build()
-        );
+        AccountDto accountDto = accountService.loadAccountByUsername(authentication.getName());
+        if (accountDto.getRole() == AccountRole.USER) {
+            accountId = accountDto.getId();
+        }
+        List<ReportDto> reports = reportService.getReports(ReportsRequestParamsTemplate.builder()
+                .description(description)
+                .reportStatus(reportStatus)
+                .longitude(longitude)
+                .latitude(latitude)
+                .createdDateTime(createdDateTime)
+                .city(city)
+                .street(street)
+                .accountId(accountId)
+                .streetNumber(streetNumber)
+                .build());
         return reports;
     }
 
     @GetMapping("/{id}")
     public ReportDto getReport(@PathVariable Long id) {
-        return reportHandler.getReport(id);
+        return reportService.getReport(id);
     }
 
     @PostMapping
     public ReportDto createReport(@RequestBody ReportDto reportDto, Authentication authentication) {
-        reportDto.setAccount(accountRepository.findAccountByUsername(authentication.getName()).get());
+        AccountDto accountDto = accountService.loadAccountByUsername(authentication.getName());
+        reportDto.setAccount(accountDto);
         reportDto.setReportStatus(ReportStatus.NEW);
-        return reportHandler.createReport(reportDto);
+        return reportService.createReport(reportDto);
     }
 
     @PutMapping("/{id}")
     public ReportDto updateReport(@PathVariable Long id, @RequestBody UpdateReportRequest updateReportRequest) {
-        return reportHandler.updateReport(id, updateReportRequest);
+        return reportService.updateReport(id, updateReportRequest);
     }
 
     @PostMapping("/{id}/image")
     public void uploadImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-        reportImageHandler.saveImage(id, file);
+        reportSImageervice.saveImage(id, file);
     }
 
     @GetMapping("/{id}/image")
     public ResponseEntity<Resource> downloadImage(@PathVariable Long id) {
-        ReportImage image = reportImageHandler.getImageByReportId(id);
+        ReportImage image = reportSImageervice.getImageByReportId(id);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(image.getFileType()))

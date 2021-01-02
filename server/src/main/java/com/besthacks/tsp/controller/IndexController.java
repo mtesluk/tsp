@@ -1,6 +1,6 @@
 package com.besthacks.tsp.controller;
 
-import com.besthacks.tsp.domain.index.Index;
+import com.besthacks.tsp.dto.Index;
 import com.besthacks.tsp.service.AirlyClient;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

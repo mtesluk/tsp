@@ -1,6 +1,6 @@
 package com.besthacks.tsp.exception;
 
-import com.besthacks.tsp.domain.error.dto.ErrorResponse;
+import com.besthacks.tsp.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

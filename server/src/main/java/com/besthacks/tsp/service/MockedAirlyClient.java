@@ -1,15 +1,15 @@
 package com.besthacks.tsp.service;
 
-import com.besthacks.tsp.domain.index.Index;
-import com.besthacks.tsp.domain.index.Level;
-import com.besthacks.tsp.domain.installation.Address;
-import com.besthacks.tsp.domain.installation.Installation;
-import com.besthacks.tsp.domain.installation.Location;
-import com.besthacks.tsp.domain.measurement.Measurement;
-import com.besthacks.tsp.domain.measurement.MeasurementEntry;
-import com.besthacks.tsp.domain.measurement.MeasurementIndex;
-import com.besthacks.tsp.domain.measurement.MeasurementValue;
-import com.besthacks.tsp.domain.measurement.Standard;
+import com.besthacks.tsp.dto.Index;
+import com.besthacks.tsp.dto.Level;
+import com.besthacks.tsp.dto.Address;
+import com.besthacks.tsp.dto.Installation;
+import com.besthacks.tsp.dto.Location;
+import com.besthacks.tsp.dto.Measurement;
+import com.besthacks.tsp.dto.MeasurementEntry;
+import com.besthacks.tsp.dto.MeasurementIndex;
+import com.besthacks.tsp.dto.MeasurementValue;
+import com.besthacks.tsp.dto.Standard;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
 package com.besthacks.tsp.service;
 
-import com.besthacks.tsp.domain.account.entity.Account;
+import com.besthacks.tsp.entity.Account;
 import com.besthacks.tsp.exception.TspException;
 import com.besthacks.tsp.repository.AccountRepository;
 import lombok.AllArgsConstructor;
@@ -17,7 +17,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @Service
 @AllArgsConstructor
 public class TspUserDetailsService implements UserDetailsService {
-
     private AccountRepository accountRepository;
 
     @Override

@@ -1,6 +1,6 @@
 package com.besthacks.tsp.repository;
 
-import com.besthacks.tsp.domain.reward.entity.Reward;
+import com.besthacks.tsp.entity.Reward;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

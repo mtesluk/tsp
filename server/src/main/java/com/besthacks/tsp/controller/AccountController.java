@@ -1,8 +1,8 @@
 package com.besthacks.tsp.controller;
 
-import com.besthacks.tsp.domain.account.dto.AccountDto;
-import com.besthacks.tsp.domain.account.entity.AccountRole;
-import com.besthacks.tsp.handler.AccountHandler;
+import com.besthacks.tsp.dto.AccountDto;
+import com.besthacks.tsp.entity.AccountRole;
+import com.besthacks.tsp.service.AccountService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1/accounts")
 public class AccountController {
 
-    private AccountHandler accountHandler;
+    private AccountService accountService;
 
     @PostMapping
     public AccountDto createAccount(@RequestBody AccountDto request) {
         request.setRole(AccountRole.USER);
-        return accountHandler.createAccount(request);
+        return accountService.createAccount(request);
     }
 
     @GetMapping("/{id}")
     public AccountDto getAccountById(@PathVariable Long id) {
-        return accountHandler.getAccountById(id);
+        return accountService.getAccountById(id);
     }
 }
