@@ -18,6 +18,8 @@ import {AuthComponent} from './auth/auth.component';
 import {HttpClientModule} from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
 import {CommonModule} from '@angular/common';
+import { ErrorInterceptorService } from './auth/error-interceptor.service';
+import { SecuredImageComponent } from './shared/component/secured-image-component/secured-image.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import {CommonModule} from '@angular/common';
     AuthComponent,
     ReportsDialogComponent,
     NewReportDialogComponent,
+    ReportDialogComponent,
+    SecuredImageComponent,
   ],
   imports: [
     CommonModule,
@@ -46,12 +50,18 @@ import {CommonModule} from '@angular/common';
       useClass: AuthInterceptorService,
       multi: true
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptorService,
+      multi: true
+    },
   ],
   entryComponents: [
     NewReportDialogComponent,
     AccountDialogComponent,
     ReportsDialogComponent,
     ReportDialogComponent,
+    SecuredImageComponent,
   ],
   bootstrap: [AppComponent]
 })
