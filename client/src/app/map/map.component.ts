@@ -5,6 +5,7 @@ import {ReportService} from '../services/report.service';
 import {Report} from '../interfaces/report.interface';
 import {MeasurementService} from "../services/measurement.service";
 import {Measurement} from '../interfaces/measurement.interface';
+import { Router } from '@angular/router';
 
 declare var ol: any;
 
@@ -37,25 +38,31 @@ export class MapComponent implements OnInit {
   map: any;
   picked: string | null;
 
-  constructor(public dialog: MatDialog, private _reportService: ReportService, private _measurementService: MeasurementService) {}
+  constructor(
+    public dialog: MatDialog,
+    private _reportService: ReportService,
+    private _measurementService: MeasurementService,  
+  ) {}
 
   ngOnInit(): void {
+    this._reportService.fetchReports();
+
+    let layer = new ol.layer.Tile({
+      source: new ol.source.OSM()
+    });
 
     this.map = new ol.Map({
       target: 'map',
-      layers: [
-        new ol.layer.Tile({
-          source: new ol.source.OSM()
-        })
-      ],
+      layers: [layer],
       view: new ol.View({
         center: ol.proj.fromLonLat([this.details.Wroclaw.latitude, this.details.Wroclaw.longitude]),
         zoom: this.details.Wroclaw.zoom,
       })
     });
 
-    this._reportService.fetchReports().subscribe(reports => {
+    this._reportService.reports.subscribe(reports => {
       this.reports = reports;
+      
       reports.forEach((report: Report) => {
         this.addReportPoint(report);
         this._measurementService.fetchNearestMeasurement(report.latitude, report.longitude, 5).subscribe(measurement => {
@@ -63,8 +70,7 @@ export class MapComponent implements OnInit {
           this.addMeasurementCircle(report, measurement);
         })
       });
-    })
-
+    });
   }
 
   addReportPoint(report: Report) {

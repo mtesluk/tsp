@@ -4,6 +4,7 @@ import {ReportsDialogComponent} from '../dialogs/reports-dialog/reports-dialog.c
 import { NewReportDialogComponent } from '../dialogs/new-report-dialog/new-report-dialog.component';
 import {AuthService} from '../auth/auth.service';
 import { AccountDialogComponent } from '../dialogs/account-dialog/account-dialog.component';
+import { ReportService } from '../services/report.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,7 +14,9 @@ import { AccountDialogComponent } from '../dialogs/account-dialog/account-dialog
 export class SidebarComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
-              private authService: AuthService) {}
+              private authService: AuthService,
+              private reportService: ReportService,
+            ) {}
 
   ngOnInit(): void {
   }
@@ -30,7 +33,7 @@ export class SidebarComponent implements OnInit {
   openNew() {
     const dialog = this.dialog.open(NewReportDialogComponent);
     dialog.afterClosed().subscribe(() => {
-      // tu dodac odswiezanie sie wszystkich raportow
+      this.reportService.fetchReports();
     })
   }
 

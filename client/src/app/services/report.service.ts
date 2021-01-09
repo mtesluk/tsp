@@ -2,18 +2,21 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Report } from '../interfaces/report.interface';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportService {
+  reports: BehaviorSubject<Report[]> = new BehaviorSubject([]);
 
   constructor(private _http: HttpClient) { }
 
-  fetchReports(): Observable<Report[]> {
-    return this._http.get<Report[]>(environment.url.report);
+  fetchReports() {
+    this._http.get<Report[]>(environment.url.report).subscribe(reports => {
+      this.reports.next(reports);
+    });
   }
 
   save(data, file: File) {

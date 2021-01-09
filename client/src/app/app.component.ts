@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from './auth/auth.service';
+import { ReportService } from './services/report.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,9 @@ import {AuthService} from './auth/auth.service';
 export class AppComponent implements OnInit {
   title = 'tsp-app';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService,
+              private reportService: ReportService,
+    ) {
   }
 
 

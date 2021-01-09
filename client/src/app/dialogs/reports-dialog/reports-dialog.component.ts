@@ -24,7 +24,7 @@ export class ReportsDialogComponent implements OnInit {
   constructor(private reportService: ReportService) { }
 
   ngOnInit(): void {
-    this.reportService.fetchReports().subscribe(rep => {
+    this.reportService.reports.subscribe(rep => {
       this.reports = rep;
 
       // console.log(rep);
